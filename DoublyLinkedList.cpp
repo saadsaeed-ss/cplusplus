@@ -154,6 +154,61 @@ public:
         }
         cout<<"\nValue not found Sorry\n";
     }
+    void delafter(int sval)
+    {
+        node *temp=head;
+        node *prev=temp;
+        while(temp!=NULL)
+        {
+            if(temp->data==sval)
+            {
+                node *succ=temp->next;
+                if(succ->next!=NULL)
+                {
+                    node *postsucc=succ->next;
+                    temp->next=postsucc;
+                    postsucc->prev=temp;
+                    delete succ;
+                    return;
+                }
+                else
+                {
+                    delete succ;
+                    temp->next=NULL;
+                    return;
+                }
+
+            }
+            temp=temp->next;
+        }
+        cout<<"\nValue not found\n";
+    }
+    void delbefore(int sval)
+    {
+       node *temp=head;
+        node *bprev,*prev=temp;
+        while(temp!=NULL)
+        {
+            if(temp->data==sval && prev==head)
+            {
+                head=head->next;
+                head->prev=NULL;
+                delete prev;
+                return;
+            }
+            else if(temp->data==sval)
+            {
+                bprev->next=temp;
+                temp->prev=bprev;
+                delete prev;
+                return;
+            }
+            bprev=prev;
+            prev=temp;
+            temp=temp->next;
+        }
+        cout<<"\nVal Not Found"<<endl;
+    }
     void display()
     {
         node *temp=head;
@@ -190,6 +245,8 @@ int main()
         cout<<"5.Delete"<<endl;
         cout<<"6.Display"<<endl;
         cout<<"7.exit"<<endl;
+        cout<<"8.Delafter"<<endl;
+        cout<<"9.DelBefore"<<endl;
         cin>>choice;
         switch(choice)
         {
@@ -235,7 +292,32 @@ int main()
         case 7:
             exit=1;
             break;
+        case 8:
+            if(dlist.isempty())
+            {
+                cout<<"\nthere is no vallue to delete :)"<<endl;
+            }
+            else
+            {
+                cout<<"\nEnter the value you want to delete: ";
+                cin>>val;
+                dlist.delafter(val);
+            }
+            break;
+        case 9:
+            if(dlist.isempty())
+            {
+                cout<<"\nthere is no vallue to delete :)"<<endl;
+            }
+            else
+            {
+                cout<<"\nEnter the value you want to delete: ";
+                cin>>val;
+                dlist.delbefore(val);
+            }
+            break;
         }
+
         if(exit==1)
             break;
     }
